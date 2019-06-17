@@ -30,8 +30,8 @@ public class BinList{
     this.classSize = Integer.parseInt(reader.readLine());
 
     //Add first bin 0-min
-    int max = Integer.parseInt(reader.readLine());
-    int min = 0;
+    double max = Integer.parseInt(reader.readLine());
+    double min = 0;
     bins.add(new Bin(""+min+"-"+max, min, max-1));
 
     //Add middle bins
