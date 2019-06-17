@@ -5,7 +5,8 @@ import java.util.*;
 
 public class ClusterFinder {
     public static String year;
-    public static String cluster;
+    public static int clusterCount;
+    public static ArrayList<String> clusters;
 
 
     public static void main(String args[]) throws FileNotFoundException, IOException {
@@ -23,12 +24,24 @@ public class ClusterFinder {
         year = scan.nextLine();
 
         //Get the cluster
-        System.out.println("Which cluster do you want to read in (1-71)?");
-        cluster = scan.nextLine();
+        System.out.println("How many clusters do you want?");
+        clusterCount = scan.nextInt();
+        clusters = new ArrayList<String>();
+
+
+        System.out.println("Enter desired clusters, follow each with return");
+        for (int i = 0; i != clusterCount; ++i){
+          clusters.add(scan.nextLine());
+        }
+
 
       }else{
         year = args[1];
-        cluster = args[2];
+        clusterCount = Integer.parseInt(args[2]);
+        clusters = new ArrayList<String>();
+        for (int i = 0; i != clusterCount; ++i){
+          clusters.add(args[i+3]);
+        }
       }
 
       //Read the year file
@@ -39,7 +52,7 @@ public class ClusterFinder {
       String[] cols = firstLine.split(",");
 
       //create new file and write the first line to have headers
-      String newFileName = year + "cluster"+ cluster + ".csv";
+      String newFileName = year + "clusterCount"+ clusterCount + ".csv";
       PrintWriter writer = new PrintWriter(newFileName);
       writer.println(firstLine);
 
@@ -47,7 +60,7 @@ public class ClusterFinder {
       String nextline;
       while((nextline = reader.readLine()) != null){
           String[] div = nextline.split(",");
-          if(div[32].equals(cluster)){
+          if(clusters.contains(div[32])){
               writer.println(nextline);
           }
       }
