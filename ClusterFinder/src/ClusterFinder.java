@@ -4,44 +4,58 @@ import java.util.*;
 
 
 public class ClusterFinder {
+    public String yearFile;
+    public String cluster;
+
 
     public static void main(String args[]) throws FileNotFoundException, IOException {
+
+
+
+      //Allow for command line arguments for quicker testing.
+      //If none are given, ask for parameters
+      if(args.length == 0){
 
         Scanner scan = new Scanner(System.in);
 
         //Get the year
         System.out.println("Which year do you want to read in (1994-2014)?");
-        String year = scan.nextLine();
-        String yearFile = year + ".csv";
+        yearFile = scan.nextLine();
 
         //Get the cluster
         System.out.println("Which cluster do you want to read in (1-71)?");
-        String cluster = scan.nextLine();
+        cluster = scan.nextLine();
 
-        //Read the year file
-        BufferedReader reader = new BufferedReader(new FileReader(yearFile));
-        String firstLine = reader.readLine();
+      }else{
+        year = args[1];
+        cluster = args[2];
+      }
 
-        //Break first line to get index
-        String[] cols = firstLine.split(",");
+      //Read the year file
+      yearFile += ".csv";
+      BufferedReader reader = new BufferedReader(new FileReader(yearFile));
+      String firstLine = reader.readLine();
 
-        //create new file and write the first line to have headers
-        String newFileName = year + "cluster"+ cluster + ".csv";
-        PrintWriter writer = new PrintWriter(newFileName);
-        writer.println(firstLine);
+      //Break first line to get index
+      String[] cols = firstLine.split(",");
 
-        //check each line, if the cluster indices are equal, write that line to the new file
-        String nextline;
-        while((nextline = reader.readLine()) != null){
-            String[] div = nextline.split(",");
-            if(div[32].equals(cluster)){
-                writer.println(nextline);
-            }
-        }
+      //create new file and write the first line to have headers
+      String newFileName = year + "cluster"+ cluster + ".csv";
+      PrintWriter writer = new PrintWriter(newFileName);
+      writer.println(firstLine);
 
-        writer.close();
-        reader.close();
-    }
+      //check each line, if the cluster indices are equal, write that line to the new file
+      String nextline;
+      while((nextline = reader.readLine()) != null){
+          String[] div = nextline.split(",");
+          if(div[32].equals(cluster)){
+              writer.println(nextline);
+          }
+      }
+
+      writer.close();
+      reader.close();
+  }
 
 }
 
@@ -80,4 +94,3 @@ public class ClusterFinder {
 //        30 = 4_plate_use
 //        31 = washing_machine_use
 //        32 = k
-
