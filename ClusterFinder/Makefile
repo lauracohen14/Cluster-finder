@@ -27,7 +27,10 @@ vpath %.exec coverage
 
 #default rule - will be invoked by make
 all: ClusterFinder.class \
-				ExtractFeatures.class
+				ExtractFeatures.class \
+				Bin.class \
+				BinList.class \
+				Discretizer.class
 
 
 # Rule for generating documentation
