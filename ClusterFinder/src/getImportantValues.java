@@ -8,12 +8,15 @@ public class getImportantValues {
     public static void main(String[] args) throws FileNotFoundException, IOException
     {
 
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Which year do you want data for?");
-        String year = scan.nextLine();
+        if(args.length==1){
+          Scanner scan = new Scanner(System.in);
+          System.out.println("Which year do you want data for?");
+          String year = scan.nextLine();
 
-        System.out.println("Which cluster do you want data for?");
-        String cluster = scan.nextLine();
+          System.out.println("Which cluster do you want data for?");
+          String cluster = scan.nextLine();
+        }
+
 
 
         String nonFileName = year + "cluster"+ cluster;
@@ -27,7 +30,7 @@ public class getImportantValues {
 
 
         String newFirstLine = cols[0] + "," + cols[1] + "," + cols[4] + "," +cols[5] + "," +cols[7] + "," + cols[9];
-        
+
 
         String newFileName = nonFileName + "Selected.csv";
         PrintWriter writer = new PrintWriter(newFileName);

@@ -4,8 +4,8 @@ import java.util.*;
 
 
 public class ClusterFinder {
-    public String yearFile;
-    public String cluster;
+    public static String year;
+    public static String cluster;
 
 
     public static void main(String args[]) throws FileNotFoundException, IOException {
@@ -14,13 +14,13 @@ public class ClusterFinder {
 
       //Allow for command line arguments for quicker testing.
       //If none are given, ask for parameters
-      if(args.length == 0){
+      if(args.length == 1){
 
         Scanner scan = new Scanner(System.in);
 
         //Get the year
         System.out.println("Which year do you want to read in (1994-2014)?");
-        yearFile = scan.nextLine();
+        year = scan.nextLine();
 
         //Get the cluster
         System.out.println("Which cluster do you want to read in (1-71)?");
@@ -32,8 +32,7 @@ public class ClusterFinder {
       }
 
       //Read the year file
-      yearFile += ".csv";
-      BufferedReader reader = new BufferedReader(new FileReader(yearFile));
+      BufferedReader reader = new BufferedReader(new FileReader(year+".csv"));
       String firstLine = reader.readLine();
 
       //Break first line to get index
