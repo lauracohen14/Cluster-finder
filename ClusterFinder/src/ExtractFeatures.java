@@ -59,12 +59,13 @@ public class ExtractFeatures {
 
 
         String line;
+        // System.out.println(featuresCount);
         while((line = reader.readLine()) != null){
 
             String[] lineCol = line.split(",");
             String updatedLine = lineCol[features[0]];
             for (int i = 1; i != featuresCount; ++i){
-              firstLine += ","+lineCol[features[i]];
+              updatedLine = updatedLine + ","+lineCol[features[i]];
             }
             writer.println(updatedLine);
         }

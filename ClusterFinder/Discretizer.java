@@ -8,16 +8,15 @@ public class Discretizer {
     public static String inputFileName;
     public static int binFileCount;
     public static String[] binFiles;
-    public ArrayList<BinList> classes;
 
 
     public static boolean checkMember(int val, Bin bin){
       return val>=bin.min && val<= bin.max;
     }
 
-    public static String setBin(int val, ArrayList<Bin> bins){
+    public static String setBin(int val, BinList binList){
       String rtn = "";
-      for(Bin bin: bins){
+      for(Bin bin: binList.bins){
         if(checkMember(val,bin)){
           rtn = bin.name;
           return rtn;
@@ -25,9 +24,6 @@ public class Discretizer {
       }
       return rtn;
     }
-
-
-
 
     public static void main(String[] args) throws FileNotFoundException, IOException
     {
@@ -46,46 +42,47 @@ public class Discretizer {
           }
         }
 
-        Discretizer disc = new Discretizer();
 
-        disc.classes = new ArrayList<BinList>();
+        ArrayList<BinList> classes = new ArrayList<BinList>();
         for(int i = 0; i != binFileCount; ++i){
-          disc.classes.add(new BinList(binFiles[i]));
+          classes.add(new BinList(binFiles[i]));
         }
-
-
-
-
-
-
+        ArrayList<String> featureNames = new ArrayList<String>(binFileCount);
+        for(BinList bl: classes){
+          featureNames.add(bl.name);
+        }
 
 
         BufferedReader reader = new BufferedReader(new FileReader("Extracts/"+inputFileName));
 
         String minLine = reader.readLine();
         String cols[] = minLine.split(",");
-        int incomeIndex = -1;
-        int floorIndex = -1;
 
-        //Determine index of features to discretize
-        for (int i = 1; i != cols.length; ++i){
-          if(cols[i].equals("monthly_income")){
-            incomeIndex = i;
-          }else if(cols[i].equals("floor_area")){
-            floorIndex = i;
+        //Create a mapping from data column index to bin in classes
+        HashMap<Integer,BinList> map = new HashMap<Integer,BinList>();
+        int breakVal = 0;
+        for (int i = 0; i != cols.length; ++i){
+          if(!featureNames.contains(cols[i])){
+            continue;
+          }else{
+            for(int j = 0; j != classes.size(); ++j){
+              if(cols[i].equals(classes.get(j).name)){
+                map.put(i,classes.get(j));
+              }
+            }
           }
-          if(incomeIndex+floorIndex != -2){
+          if (breakVal >= binFileCount){
             break;
           }
         }
-        //
-        // fileName = fileName.substring(0,fileName.length()-4);
-        // fileName = "Extracts/"+fileName+"Selected.csv";
-        // PrintWriter writer = new PrintWriter(fileName);
-        // writer.println(minLine);
-        //
-        //
-        // String line;
+
+        String fileName = inputFileName.substring(0,inputFileName.length()-4);
+        fileName = "Extracts/"+fileName+"Disc.csv";
+        PrintWriter writer = new PrintWriter(fileName);
+        writer.println(minLine);
+
+
+        String line;
         // while((line = reader.readLine()) != null){
         //
         //     String[] lineCol = line.split(",");
@@ -95,9 +92,9 @@ public class Discretizer {
         //     }
         //     writer.println(updatedLine);
         // }
-        //
-        // writer.close();
-        // reader.close();
+
+        writer.close();
+        reader.close();
 
 
 
