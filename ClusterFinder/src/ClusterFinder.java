@@ -15,7 +15,7 @@ public class ClusterFinder {
 
       //Allow for command line arguments for quicker testing.
       //If none are given, ask for parameters
-      if(args.length == 1){
+      if(args.length == 0){
 
         Scanner scan = new Scanner(System.in);
 
@@ -36,11 +36,11 @@ public class ClusterFinder {
 
 
       }else{
-        year = args[1];
-        clusterCount = Integer.parseInt(args[2]);
+        year = args[0];
+        clusterCount = Integer.parseInt(args[1]);
         clusters = new ArrayList<String>();
         for (int i = 0; i != clusterCount; ++i){
-          clusters.add(args[i+3]);
+          clusters.add(args[i+2]);
         }
       }
 
@@ -52,7 +52,7 @@ public class ClusterFinder {
       String[] cols = firstLine.split(",");
 
       //create new file and write the first line to have headers
-      String newFileName = year + "clusterCount"+ clusterCount + ".csv";
+      String newFileName = "Extracts/"+year + "clusterCount"+ clusterCount + ".csv";
       PrintWriter writer = new PrintWriter(newFileName);
       writer.println(firstLine);
 

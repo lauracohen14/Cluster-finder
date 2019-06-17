@@ -47,6 +47,13 @@ jacoco.exec: test_classes
 report: jacoco.exec
 	java -cp $(BINDIR):$(CLI):$(JACOCO):$(ASM):$(TOOLS) Report --reporttype html .
 
+cluster: all
+	java -cp $(BINDIR) ClusterFinder $(ARGS)
+
+    String updatedLine = lineCol[0] + "," + lineCol[1] + "," + lineCol[4] + "," +lineCol[5] + "," +lineCol[7] + "," + lineCol[9];
+extract1: all
+	java -cp $(BINDIR) ExtractFeatures $(file) 6 0 1 4 5 7 9
+
 
 
 #Cleans folders
