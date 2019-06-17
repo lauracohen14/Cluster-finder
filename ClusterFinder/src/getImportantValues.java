@@ -5,43 +5,67 @@ import java.util.*;
 
 public class getImportantValues {
 
+    public static int featuresCount;
+    public static int[] features;
+    public static String fileName;
+
     public static void main(String[] args) throws FileNotFoundException, IOException
     {
 
         if(args.length==1){
           Scanner scan = new Scanner(System.in);
-          System.out.println("Which year do you want data for?");
-          String year = scan.nextLine();
 
-          System.out.println("Which cluster do you want data for?");
-          String cluster = scan.nextLine();
+          System.out.println("Which file do you want to extract from?");
+          fileName = scan.nextLine();
+
+          System.out.println("How many columns do you want?");
+          featuresCount = scan.nextInt();
+          features = new int[featuresCount];
+
+          System.out.println("Enter desired columns, each followed by a space");
+          for (int i = 0; i != featuresCount; ++i){
+            features[i]=scan.nextInt();
+            scan.skip(" ");
+          }
+          scan.close();
+
+        }else{
+          fileName = args[1];
+          featuresCount = Integer.parseInt(args[2]);
+          features = new int[featuresCount];
+          for (int i = 0; i!= featuresCount; ++i){
+            features[i] = Integer.parseInt(args[i+3]);
+          }
         }
 
 
 
-        String nonFileName = year + "cluster"+ cluster;
-        String name = nonFileName + ".csv";
 
-
-        BufferedReader reader = new BufferedReader(new FileReader(name));
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
         String firstLine = reader.readLine();
         String cols[] = firstLine.split(",");
+        firstLine = cols[features[0]];
 
 
-        String newFirstLine = cols[0] + "," + cols[1] + "," + cols[4] + "," +cols[5] + "," +cols[7] + "," + cols[9];
+        for (int i = 1; i != featuresCount; ++i){
+          firstLine += ","+cols[features[i]];
+        }
 
 
-        String newFileName = nonFileName + "Selected.csv";
-        PrintWriter writer = new PrintWriter(newFileName);
-        writer.println(newFirstLine);
+        fileName += "Selected.csv";
+        PrintWriter writer = new PrintWriter(fileName);
+        writer.println(firstLine);
 
 
         String line;
         while((line = reader.readLine()) != null){
 
             String[] lineCol = line.split(",");
-            String updatedLine = lineCol[0] + "," + lineCol[1] + "," + lineCol[4] + "," +lineCol[5] + "," +lineCol[7] + "," + lineCol[9];
+            String updatedLine = lineCol[features[0]];
+            for (int i = 1; i != featuresCount; ++i){
+              firstLine += ","+lineCol[features[i]];
+            }
             writer.println(updatedLine);
         }
 
