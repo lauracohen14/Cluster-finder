@@ -46,7 +46,7 @@ public class ClusterFinder {
       }
 
       //Read the year file
-      BufferedReader reader = new BufferedReader(new FileReader(year+".csv"));
+      BufferedReader reader = new BufferedReader(new FileReader("Data/"+year+".csv"));
       String firstLine = reader.readLine();
 
       //Break first line to get index
