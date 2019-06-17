@@ -30,8 +30,9 @@ public class ClusterFinder {
 
 
         System.out.println("Enter desired clusters, follow each with return");
-        for (int i = 0; i != clusterCount; ++i){
-          clusters.add(scan.nextLine());
+        for (int i = 0; i != clusterCount+1; i++){
+          String cluster = scan.nextLine();
+          clusters.add(cluster);
         }
 
 
