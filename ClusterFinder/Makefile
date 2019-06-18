@@ -30,7 +30,9 @@ all: ClusterFinder.class \
 				ExtractFeatures.class \
 				Bin.class \
 				BinList.class \
-				Discretizer.class
+				Discretizer.class \
+				Counter.class \
+				ModeExtractor.class
 
 
 # Rule for generating documentation
@@ -53,11 +55,20 @@ report: jacoco.exec
 cluster: all
 	java -cp $(BINDIR) ClusterFinder $(ARGS)
 
+cluster1: all
+	java -cp $(BINDIR) ClusterFinder 2014 1 1
+
 extract1: all
-	java -cp $(BINDIR) ExtractFeatures $(file) 6 0 1 4 5 7 9
+	java -cp $(BINDIR) ExtractFeatures 2014clusterCount1Modal.csv 6 0 1 4 5 7 9
 
 bin1: all
-	java -cp $(BINDIR) Discretizer $(file) 2 income.txt floorArea.txt
+	java -cp $(BINDIR) Discretizer 2014clusterCount1ModalSelected.csv 2 income.txt floorArea.txt
+
+mode1: all
+	java -cp $(BINDIR) ModeExtractor 2014clusterCount1.csv Municipality
+
+all1: cluster1 mode1 extract1 bin1
+
 
 
 

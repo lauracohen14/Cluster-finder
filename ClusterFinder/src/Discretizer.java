@@ -60,7 +60,7 @@ public class Discretizer {
         String cols[] = minLine.split(",");
         int[] indices = new int[binFileCount];
 
-        //Create a mapping from data column index to bin in classes
+    //Create a mapping from data column index to bin in classes
         HashMap<Integer,BinList> map = new HashMap<Integer,BinList>();
         int breakVal = 0;
         for (int i = 0; i != cols.length; ++i){
@@ -80,6 +80,7 @@ public class Discretizer {
           }
         }
 
+    //Update file
         String fileName = inputFileName.substring(0,inputFileName.length()-4);
         fileName = "Extracts/"+fileName+"Disc.csv";
         PrintWriter writer = new PrintWriter(fileName);
@@ -89,10 +90,14 @@ public class Discretizer {
         while((line = reader.readLine()) != null){
 
             String[] lineCol = line.split(",");
+
+            //Replace each value with its corresponding bin
             for(int i = 0; i != indices.length; ++i){
               int index = indices[i];
               lineCol[index] = setBin(Double.parseDouble(lineCol[index]), map.get(index));
             }
+
+            //Rewrite updated line
             String updatedLine = lineCol[0];
             for (int i = 1; i != lineCol.length; ++i){
               updatedLine += ","+lineCol[i];
